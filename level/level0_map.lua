@@ -28,7 +28,38 @@ return {
       properties = {},
       terrains = {},
       tilecount = 30,
-      tiles = {}
+      tiles = {
+        {
+          id = 9,
+          properties = {
+            ["collidable"] = "true"
+          }
+        },
+        {
+          id = 12,
+          properties = {
+            ["collidable"] = "true"
+          }
+        },
+        {
+          id = 20,
+          properties = {
+            ["collidable"] = "true"
+          }
+        },
+        {
+          id = 25,
+          properties = {
+            ["collidable"] = "true"
+          }
+        },
+        {
+          id = 26,
+          properties = {
+            ["collidable"] = "true"
+          }
+        }
+      }
     },
     {
       name = "tree",
@@ -149,10 +180,10 @@ return {
           name = "Player",
           type = "",
           shape = "rectangle",
-          x = 16,
-          y = 190,
+          x = 16.5,
+          y = 223.5,
           width = 16,
-          height = 32,
+          height = 16,
           rotation = 0,
           visible = true,
           properties = {}

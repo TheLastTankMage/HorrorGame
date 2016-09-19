@@ -6,8 +6,6 @@ map = {
   level0 = {}
 }
 
-mapX = 0
-
 function game:init()
     level0BG = love.graphics.newImage('assets/level0_background.png')
     map.level0 = sti("level/level0_map.lua", { "box2d" })
@@ -41,7 +39,11 @@ function game:draw()
 
 -- Level Draw
   love.graphics.push()
-      love.graphics.translate(math.floor(mapX*scaleX), 0)
+      player = map.level0.layers["Hero"].player
+      local tx = math.floor(mapMove.x - screenWidth / 2)
+      local ty = math.floor(mapMove.y - screenHeight / 2)
+
+      love.graphics.translate(math.floor(-tx * scaleX, -ty * scaleY))
       love.graphics.scale(scaleX, scaleY)
       map.level0:draw()
 

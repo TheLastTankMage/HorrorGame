@@ -3,10 +3,10 @@ hero = {}
 
 
 function hero:init()
-  local layer = map.level0:addCustomLayer("Hero", 4)
+  layer = map.level0:addCustomLayer("Hero", 4)
 
 -- Get Player Spawn
-  local player
+  player = {}
   for k, object in pairs(map.level0.objects) do
     if object.name == "Player" then
       player = object
@@ -15,7 +15,7 @@ function hero:init()
   end
 
 -- Create Player
-  local sprite = love.graphics.newImage("assets/player.png")
+  sprite = love.graphics.newImage("assets/player.png")
   layer.player = {
     sprite = sprite,
     x = player.x,
@@ -25,9 +25,14 @@ function hero:init()
     ow = sprite:getWidth() / 2,
     oy = sprite:getHeight() / 1.35,
     speed = 50,
+    body = love.physics.newBody(world, player.x, player.y, "dynamic"),
     dir = "right",
   }
 
+mapMove = {
+  x = layer.player.x,
+  y = layer.player.y,
+}
 
 -- Hero Controls
   layer.update = function(self, dt)
@@ -85,5 +90,5 @@ function hero:update(dt)
 end
 
 function hero:draw()
-  local player = map.level0.layers["Hero"].player
+
 end

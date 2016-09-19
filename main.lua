@@ -9,9 +9,6 @@ timer = require("timer")
 -- STI Tiled Loader
 sti = require("sti")
 
--- Bump Collider
-bump = require("bump")
-
 -- Game States
 splashA = require("states.splashA")
 splashB = require("states.splashB")
