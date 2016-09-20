@@ -1,67 +1,30 @@
 hero = {}
 
-
+tx = 0
 
 function hero:init()
-  layer = map.level0:addCustomLayer("Hero", 4)
 
 -- Get Player Spawn
-  player = {}
+  player_spawn = {}
   for k, object in pairs(map.level0.objects) do
     if object.name == "Player" then
-      player = object
+      player_spawn = object
       break
     end
   end
 
 -- Create Player
-  sprite = love.graphics.newImage("assets/player.png")
-  layer.player = {
-    sprite = sprite,
-    x = player.x,
-    y = player.y,
-    w = sprite:getWidth(),
-    h = sprite:getHeight(),
-    ow = sprite:getWidth() / 2,
-    oy = sprite:getHeight() / 1.35,
+  player = {
+    x = player_spawn.x,
+    y = player_spawn.y - 32,
+    img = love.graphics.newImage("assets/player.png"),
+    w = 16,
+    h = 32,
+    ow = 16 / 2,
+    oy = 32 / 1.35,
     speed = 50,
-    body = love.physics.newBody(world, player.x, player.y, "dynamic"),
     dir = "right",
   }
-
-mapMove = {
-  x = layer.player.x,
-  y = layer.player.y,
-}
-
--- Hero Controls
-  layer.update = function(self, dt)
-    local speed = 50
-      if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
-        self.player.x = self.player.x + speed * dt
-        player.dir = "right"
-
-      end
-      if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
-        self.player.x = self.player.x - speed * dt
-        player.dir = "left"
-      end
-  end
-
-
-  -- HERO DRAW
-  layer.draw = function(self)
-    love.graphics.draw(
-      self.player.sprite,
-      math.floor(self.player.x),
-      math.floor(self.player.y),
-      0,
-      1,
-      1,
-      self.player.ox,
-      self.player.oy
-    )
-  end
 
 --Remove Spawn layer
   map.level0:removeLayer("Spawn Point")
@@ -71,24 +34,55 @@ end
 
 
 function hero:update(dt)
+hero:control(dt)
 
---[[
 -- Map Movement
-  if self.player.x >= 180 and
+  if player.x >= 180 and
     love.keyboard.isDown("d") then
-        mapX = mapX - speed * dt
+        tx = tx - player.speed * dt
   end
 
 -- Player X Limit
-  if self.player.x >= 180 then
-    self.player.x = 180
+  if player.x >= 180 then
+    player.x = 180
   end
-  if self.player.x <= 0 then
-    self.player.x = 0
+  if player.x <= 0 then
+    player.x = 0
   end
-]]
+
+
 end
 
 function hero:draw()
+  love.graphics.push()
+      ScreenWidthScale = love.graphics.getWidth() / scaleX
+      ScreenHeightScale = love.graphics.getHeight() / scaleY
+
+      love.graphics.translate(math.floor(tx * scaleX), 0)
+      love.graphics.scale(scaleX, scaleY)
+      map.level0:draw()
+
+      local translateX = 427 -- Set Level Draw Range
+      local translateY = 240
+      map.level0:setDrawRange(translateX, translateY, screenWidth, screenHeight)
+  love.graphics.pop()
+
+  love.graphics.push()
+      love.graphics.scale(scaleX, scaleY)
+      love.graphics.draw(player.img, player.x, player.y)
+  love.graphics.pop()
+end
+
+
+function hero:control(dt)
+  if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
+    player.x = player.x + player.speed * dt
+    player.dir = "right"
+
+  end
+  if love.keyboard.isDown("left") or love.keyboard.isDown("a") then
+    player.x = player.x - player.speed * dt
+    player.dir = "left"
+  end
 
 end
